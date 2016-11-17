@@ -9,5 +9,15 @@
 #import <UIKit/UIKit.h>
 
 @interface YCBulletView : UIView
+/** 弹道*/
+@property (nonatomic,assign) int trajectory;
+/** 弹幕状态回调*/
+@property (nonatomic,copy) void(^moveStatusBlock)();
 
+/** 初始化弹幕*/
+-(instancetype)initWithBulletString:(NSString *)string;
+/** 开始动画*/
+-(void)startAnimation;
+/** 结束动画*/
+-(void)stopAnimation;
 @end

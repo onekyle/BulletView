@@ -13,6 +13,8 @@
 		139719CF1DDE2158003A1EE0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 139719CD1DDE2158003A1EE0 /* Main.storyboard */; };
 		139719D11DDE2158003A1EE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 139719D01DDE2158003A1EE0 /* Assets.xcassets */; };
 		139719D41DDE2158003A1EE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 139719D21DDE2158003A1EE0 /* LaunchScreen.storyboard */; };
+		139719E01DDE22EB003A1EE0 /* YCBulletManage.m in Sources */ = {isa = PBXBuildFile; fileRef = 139719DF1DDE22EB003A1EE0 /* YCBulletManage.m */; };
+		139719E31DDE22FB003A1EE0 /* YCBulletView.m in Sources */ = {isa = PBXBuildFile; fileRef = 139719E21DDE22FB003A1EE0 /* YCBulletView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,10 @@
 		139719D01DDE2158003A1EE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		139719D31DDE2158003A1EE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		139719D51DDE2158003A1EE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		139719DE1DDE22EB003A1EE0 /* YCBulletManage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCBulletManage.h; sourceTree = "<group>"; };
+		139719DF1DDE22EB003A1EE0 /* YCBulletManage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCBulletManage.m; sourceTree = "<group>"; };
+		139719E11DDE22FB003A1EE0 /* YCBulletView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCBulletView.h; sourceTree = "<group>"; };
+		139719E21DDE22FB003A1EE0 /* YCBulletView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCBulletView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +68,10 @@
 				139719C81DDE2158003A1EE0 /* AppDelegate.m */,
 				139719CA1DDE2158003A1EE0 /* ViewController.h */,
 				139719CB1DDE2158003A1EE0 /* ViewController.m */,
+				139719E11DDE22FB003A1EE0 /* YCBulletView.h */,
+				139719E21DDE22FB003A1EE0 /* YCBulletView.m */,
+				139719DE1DDE22EB003A1EE0 /* YCBulletManage.h */,
+				139719DF1DDE22EB003A1EE0 /* YCBulletManage.m */,
 				139719CD1DDE2158003A1EE0 /* Main.storyboard */,
 				139719D01DDE2158003A1EE0 /* Assets.xcassets */,
 				139719D21DDE2158003A1EE0 /* LaunchScreen.storyboard */,
@@ -150,8 +160,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				139719CC1DDE2158003A1EE0 /* ViewController.m in Sources */,
+				139719E31DDE22FB003A1EE0 /* YCBulletView.m in Sources */,
 				139719C91DDE2158003A1EE0 /* AppDelegate.m in Sources */,
 				139719C61DDE2158003A1EE0 /* main.m in Sources */,
+				139719E01DDE22EB003A1EE0 /* YCBulletManage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

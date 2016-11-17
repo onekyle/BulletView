@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface YCBulletManage : UIView
+@class YCBulletView;
+@interface YCBulletManage : NSObject
 
+@property (nonatomic,copy) void(^generateViewBlock)(YCBulletView *view);
+
+-(void)start;
+
+-(void)stop;
 @end
