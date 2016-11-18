@@ -9,9 +9,11 @@
 #import "YCBulletView.h"
 
 #define Padding 10
+#define PhotoHeight 30
 
 @interface YCBulletView ()
 @property (nonatomic,strong) UILabel *bulletLabel;
+@property (nonatomic,strong) UIImageView *photoImgView;
 @end
 
 @implementation YCBulletView
@@ -19,8 +21,8 @@
 -(instancetype)initWithBulletString:(NSString *)string
 {
     if (self = [super init]) {
+//        self.clipsToBounds = NO;
         self.backgroundColor = [UIColor redColor];
-        
         UIFont *labelFont = [UIFont systemFontOfSize:14];
         NSDictionary *attr = @{NSFontAttributeName:labelFont};
         CGFloat stringWidth = [string sizeWithAttributes:attr].width;
@@ -34,10 +36,22 @@
         [self addSubview:_bulletLabel];
         
         CGFloat heifht = 30;
-        self.bounds = CGRectMake(0, 0, stringWidth + 2 * Padding, heifht);
+        self.layer.cornerRadius = heifht / 2;
+        self.bounds = CGRectMake(0, 0, stringWidth + 2 * Padding + PhotoHeight, heifht);
         _bulletLabel.text = string;
-        _bulletLabel.frame = CGRectMake(Padding, 0, stringWidth, heifht);
+        _bulletLabel.frame = CGRectMake(Padding + PhotoHeight, 0, stringWidth, heifht);
         
+        _photoImgView = ({
+            UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(-Padding, -Padding, PhotoHeight + Padding, PhotoHeight + Padding)];
+            iv.clipsToBounds = YES;
+            iv.contentMode = UIViewContentModeScaleAspectFill;
+            iv.backgroundColor = [UIColor whiteColor];
+            iv.layer.cornerRadius = (PhotoHeight + Padding) / 2;
+            iv.layer.borderColor = [UIColor orangeColor].CGColor;
+            iv.layer.borderWidth = 1;
+            iv;
+        });
+        [self addSubview:_photoImgView];
     }
     
     return self;

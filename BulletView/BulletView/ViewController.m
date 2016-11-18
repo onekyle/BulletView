@@ -24,14 +24,28 @@
         [weakSelf addBulletView:view];
     }];
     
+    UIButton *startButton = ({
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(100, 100, 50, 50)];
+        [btn setTitle:@"Start" forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(didClickStart) forControlEvents:UIControlEventTouchUpInside];
+        btn;
+    });
+    [self.view addSubview:startButton];
+    
     UIButton *stopButton = ({
-        stopButton = [[UIButton alloc] initWithFrame:CGRectMake(150, 100, 50, 50)];
-        [stopButton setTitle:@"Stop" forState:UIControlStateNormal];
-        [stopButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-        [stopButton addTarget:self action:@selector(didClickStop) forControlEvents:UIControlEventTouchUpInside];
-        stopButton;
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(200, 100, 50, 50)];
+        [btn setTitle:@"Stop" forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(didClickStop) forControlEvents:UIControlEventTouchUpInside];
+        btn;
     });
     [self.view addSubview:stopButton];
+}
+
+-(void)didClickStart
+{
+    [self.manager start];
 }
 
 -(void)didClickStop
@@ -39,10 +53,6 @@
     [self.manager stop];
 }
 
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    [self.manager start];
-}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -51,7 +61,7 @@
 -(void)addBulletView:(YCBulletView *)view
 {
     CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(screenW, 300 + view.trajectory * 40, view.frame.size.width, view.frame.size.height);
+    view.frame = CGRectMake(screenW, 300 + view.trajectory * 50, view.frame.size.width, view.frame.size.height);
     [self.view addSubview:view];
     
     [view startAnimation];
