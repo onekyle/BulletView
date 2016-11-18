@@ -73,6 +73,7 @@
 /** 结束动画*/
 -(void)stopAnimation
 {
+    [NSRunLoop cancelPreviousPerformRequestsWithTarget:self selector:@selector(enterScreen) object:nil];
     [self.layer removeAllAnimations];
     [self removeFromSuperview];
 }

@@ -16,6 +16,8 @@
 @property (nonatomic,strong) NSMutableArray *bulletStrings;
 /** [弹幕View]*/
 @property (nonatomic,strong) NSMutableArray *bulletViews;
+
+@property (nonatomic,assign) BOOL animationIsStop;
 @end
 
 @implementation YCBulletManage
@@ -23,6 +25,8 @@
 -(instancetype)init
 {
     if (self = [super init]) {
+        
+        _animationIsStop = YES;
         
         _dataSource = ({
             NSMutableArray *mArr = [NSMutableArray arrayWithArray:@[
@@ -82,6 +86,9 @@
 
 -(void)createBulletView:(NSString *)bulletStr withTrajectory:(int)trajectory
 {
+    if (_animationIsStop) {
+        return;
+    }
     YCBulletView *view = [[YCBulletView alloc] initWithBulletString:bulletStr];
     view.trajectory = trajectory;
     [self.bulletViews addObject:view];
@@ -89,6 +96,9 @@
     __weak typeof(view)weakBullet = view;
     __weak typeof(self)weakSelf = self;
     view.moveStatusBlock = ^(YCBulletMoveStatus status){
+        if (weakSelf.animationIsStop) {
+            return ;
+        }
         switch (status) {
             case YCBulletMoveStatusStart:
                 // 弹幕开始进入屏幕, 判断是否还有其他内容, 如果有则在该弹幕轨迹中创建一个
@@ -112,6 +122,7 @@
                 
                 if (!weakSelf.bulletViews.count) {
                     // 说明屏幕上没有弹幕了, 开始循环滚动
+                    weakSelf.animationIsStop = YES;
                     [weakSelf start];
                 }
                 break;
@@ -127,6 +138,10 @@
 
 -(void)start
 {
+    if (!_animationIsStop) {
+        return;
+    }
+    _animationIsStop = NO;
     [self.bulletStrings removeAllObjects];
     [self.bulletStrings addObjectsFromArray:self.dataSource];
     [self initBulletString];
@@ -134,6 +149,14 @@
 
 -(void)stop
 {
+    if (_animationIsStop) {
+        return;
+    }
+    _animationIsStop = YES;
+    for (YCBulletView *view in self.bulletViews) {
+        [view stopAnimation];
+    }
+    [self.bulletViews removeAllObjects];
     
 }
 

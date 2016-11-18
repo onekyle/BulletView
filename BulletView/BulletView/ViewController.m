@@ -23,6 +23,20 @@
     [self.manager setGenerateViewBlock:^(YCBulletView *view) {
         [weakSelf addBulletView:view];
     }];
+    
+    UIButton *stopButton = ({
+        stopButton = [[UIButton alloc] initWithFrame:CGRectMake(150, 100, 50, 50)];
+        [stopButton setTitle:@"Stop" forState:UIControlStateNormal];
+        [stopButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+        [stopButton addTarget:self action:@selector(didClickStop) forControlEvents:UIControlEventTouchUpInside];
+        stopButton;
+    });
+    [self.view addSubview:stopButton];
+}
+
+-(void)didClickStop
+{
+    [self.manager stop];
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
