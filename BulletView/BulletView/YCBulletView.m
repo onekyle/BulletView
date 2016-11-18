@@ -45,18 +45,28 @@
 /** 开始动画*/
 -(void)startAnimation
 {
+    // 弹幕开始
+    self.moveStatusBlock(YCBulletMoveStatusStart);
+    
     CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
-    CGFloat duration = 5.0;
-    CGFloat wholeWidth = screenW + CGRectGetWidth(self.bounds);
+    CGFloat bulletWidth = CGRectGetWidth(self.bounds);
+    // 弹幕越长 动画时间越长, 速度越慢.
+    CGFloat duration = (bulletWidth / (screenW / 4))  * 3.0;
+    CGFloat wholeWidth = screenW + bulletWidth;
+    
+    CGFloat speed = wholeWidth / duration;
+    CGFloat enterDelay = bulletWidth / speed;
+    [self performSelector:@selector(enterScreen) withObject:nil afterDelay:enterDelay];
+    
     __block CGRect frame = self.frame;
     frame.origin.x = screenW;
     self.frame = frame;
-    [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        frame.origin.x = -wholeWidth;
+    [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        frame.origin.x = -bulletWidth;
         self.frame = frame;
     } completion:^(BOOL finished) {
         if (self.moveStatusBlock) {
-            self.moveStatusBlock();
+            self.moveStatusBlock(YCBulletMoveStatusEnd);
         }
     }];
 }
@@ -65,6 +75,13 @@
 {
     [self.layer removeAllAnimations];
     [self removeFromSuperview];
+}
+
+-(void)enterScreen
+{
+    if (self.moveStatusBlock) {
+        self.moveStatusBlock(YCBulletMoveStatusEnter);
+    }
 }
 
 @end

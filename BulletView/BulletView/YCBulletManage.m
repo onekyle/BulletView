@@ -25,11 +25,23 @@
     if (self = [super init]) {
         
         _dataSource = ({
-            NSMutableArray *mArr = [NSMutableArray arrayWithArray:
-                                    @[@"1111111~~~",
-                                    @"@@@@!22222!~~",
-                                    @"@#####333333~~~",]
-                                    ];
+            NSMutableArray *mArr = [NSMutableArray arrayWithArray:@[
+                                                                    @"1111111~~~",
+                                                                    @"@@@@!22222!~~",
+                                                                    @"@#####333333~~~",
+                                                                    @"1111111~~~",
+                                                                    @"@@@@!22222!~~",
+                                                                    @"@#####333333~~~",
+                                                                    @"1111111~~~",
+                                                                    @"@@@@!22222!~~",
+                                                                    @"@#####333333~~~",
+                                                                    @"1111111~~~",
+                                                                    @"@@@@!22222!~~",
+                                                                    @"@#####333333~~~",
+                                                                    @"1111111~~~",
+                                                                    @"@@@@!22222!~~",
+                                                                    @"@#####333333~~~",
+                                                                    ]];
             mArr;
         });
         
@@ -51,8 +63,8 @@
 -(void)initBulletString
 {
     NSMutableArray *trajectorys = [NSMutableArray arrayWithArray:@[@1,@2,@3]];
-    
-    for (int i = 0; i < trajectorys.count; i ++) {
+    NSUInteger count = trajectorys.count;
+    for (int i = 0; i < count; i ++) {
         if (_bulletStrings.count) {
             
             NSInteger index = arc4random()%trajectorys.count;
@@ -76,9 +88,36 @@
     
     __weak typeof(view)weakBullet = view;
     __weak typeof(self)weakSelf = self;
-    view.moveStatusBlock = ^{
-        [weakBullet stopAnimation];
-        [weakSelf.bulletViews removeObject:weakBullet];
+    view.moveStatusBlock = ^(YCBulletMoveStatus status){
+        switch (status) {
+            case YCBulletMoveStatusStart:
+                // 弹幕开始进入屏幕, 判断是否还有其他内容, 如果有则在该弹幕轨迹中创建一个
+                [weakSelf.bulletViews addObject:weakBullet];
+                break;
+            case YCBulletMoveStatusEnter:
+                // 弹幕完全进入屏幕, 判断是否还有其他内容, 如果有就在该弹幕轨迹中创建一个弹幕
+            {
+                NSString *nextBulletStr = [weakSelf nextBulletString];
+                if (nextBulletStr) {
+                    [weakSelf createBulletView:nextBulletStr withTrajectory:trajectory];
+                }
+            }
+                break;
+            case YCBulletMoveStatusEnd:
+                // 弹幕飞出屏幕后从 bulletViews中移除, 释放资源
+                if ([weakSelf.bulletViews containsObject:weakBullet]) {
+                    [weakBullet stopAnimation];
+                    [weakSelf.bulletViews removeObject:weakBullet];
+                }
+                
+                if (!weakSelf.bulletViews.count) {
+                    // 说明屏幕上没有弹幕了, 开始循环滚动
+                    [weakSelf start];
+                }
+                break;
+            default:
+                break;
+        }
     };
     
     if (self.generateViewBlock) {
@@ -96,5 +135,15 @@
 -(void)stop
 {
     
+}
+
+-(NSString *)nextBulletString
+{
+    if (!self.bulletStrings.count) {
+        return nil;
+    }
+    NSString *bulletStr = self.bulletStrings.firstObject;
+    [self.bulletStrings removeObjectAtIndex:0];
+    return bulletStr;
 }
 @end
